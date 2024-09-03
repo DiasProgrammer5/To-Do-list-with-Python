@@ -34,130 +34,133 @@ def main():
         print(" 5) Show tasks already done")
         print(" 6) Desmark tasks as done")
         print(" 7) Exit program")
-        
-        choice = int(input("Enter your choice: "))
-        
-        if choice == 1:
-            number_tasks = int(input("\nHow many tasks you want to add: "))
-
-            for i in range(number_tasks):
-                length_before = len(tasks)
-                task = input("Enter task {}: ".format(i+1))
-                tasks.append(task)
-                length_after = len(tasks)
-                
-                if length_before < length_after:
-                    save_value(tasks, tasks_name)
-                    print("Task added")
-                else:
-                    print("Failed to add task")
-        
-        elif choice == 2:
+    
+        try:
+            choice = int(input("Enter your choice: "))
             
-            length_before = len(tasks)
-            if len(tasks) == 0:
-                print("No tasks to delete")
-            else:
-                task_index = int(input("\nWhich task do you want to delete (1-{})? ".format(len(tasks)))) - 1
-                
-                if task_index > len(tasks):
-                    print("Error: You don't have that task")
-                else:
-                    del tasks[task_index]
+            if choice == 1:
+                number_tasks = int(input("\nHow many tasks you want to add: "))
+
+                for i in range(number_tasks):
+                    length_before = len(tasks)
+                    task = input("Enter task {}: ".format(i+1))
+                    tasks.append(task)
                     length_after = len(tasks)
-                    save_value(tasks, tasks_name)
                     
-                    if length_before > length_after:
-                        print("Task deleted")
+                    if length_before < length_after:
+                        save_value(tasks, tasks_name)
+                        print("Task added")
                     else:
-                        print("Failed to delete task")
-        
-        elif choice == 3:
-
-            if len(tasks) == 0:
-                print("No tasks to show")
-            else:
-                print("\nTasks to do:")
-                for i, task in enumerate(tasks, start=1):
-                    print("{} - {}".format(i, task))
-                
-        elif choice == 4:
+                        print("Failed to add task")
             
-            done_before = len(tasks_done)
-            task_before = len(tasks)
-            
-            if len(tasks) == 0:
-                print("No tasks to mark as done")
-            else:
-                print("\nTasks to mark as done:")
+            elif choice == 2:
                 
-                for i, task in enumerate(tasks, start=1):
-                    print("{} - {}".format(i, task))
-                    
-                task_index = int(input("\nWhich task do you want to mark as done (1-{})? ".format(len(tasks)))) - 1
-                
-                if task_index > len(tasks):
-                    print("Error: You don't have that task")
+                length_before = len(tasks)
+                if len(tasks) == 0:
+                    print("No tasks to delete")
                 else:
-                    tasks_done.append(tasks[task_index])
-                    done_after = len(tasks_done)
+                    task_index = int(input("\nWhich task do you want to delete (1-{})? ".format(len(tasks)))) - 1
                     
-                    if done_before < done_after:
-                        save_value(tasks_done, done_name)
+                    if task_index > len(tasks):
+                        print("Error: You don't have that task")
+                    else:
                         del tasks[task_index]
-                        task_after = len(tasks)
+                        length_after = len(tasks)
+                        save_value(tasks, tasks_name)
                         
-                        if task_after < task_before:
-                            save_value(tasks, tasks_name)  
-                            print("Task marked as done")
+                        if length_before > length_after:
+                            print("Task deleted")
+                        else:
+                            print("Failed to delete task")
+            
+            elif choice == 3:
+
+                if len(tasks) == 0:
+                    print("No tasks to show")
+                else:
+                    print("\nTasks to do:")
+                    for i, task in enumerate(tasks, start=1):
+                        print("{} - {}".format(i, task))
+                    
+            elif choice == 4:
+                
+                done_before = len(tasks_done)
+                task_before = len(tasks)
+                
+                if len(tasks) == 0:
+                    print("No tasks to mark as done")
+                else:
+                    print("\nTasks to mark as done:")
+                    
+                    for i, task in enumerate(tasks, start=1):
+                        print("{} - {}".format(i, task))
+                        
+                    task_index = int(input("\nWhich task do you want to mark as done (1-{})? ".format(len(tasks)))) - 1
+                    
+                    if task_index > len(tasks):
+                        print("Error: You don't have that task")
+                    else:
+                        tasks_done.append(tasks[task_index])
+                        done_after = len(tasks_done)
+                        
+                        if done_before < done_after:
+                            save_value(tasks_done, done_name)
+                            del tasks[task_index]
+                            task_after = len(tasks)
+                            
+                            if task_after < task_before:
+                                save_value(tasks, tasks_name)  
+                                print("Task marked as done")
+                            else: 
+                                print("Failed to mark task as done")
                         else: 
                             print("Failed to mark task as done")
-                    else: 
-                        print("Failed to mark task as done")
-                        
-        elif choice == 5:
-            
-            if len(tasks_done) == 0:
-                print("No tasks already done")
-            else:
-                print("\nTasks already done:")
+                            
+            elif choice == 5:
                 
-                for i, task in enumerate(tasks_done, start=1):
-                    print("{} - {}".format(i, task))
-    
-        elif choice == 6:
-            
-            before_done = len(tasks_done)
-            before_task = len(tasks)
-            
-            if len(tasks_done) == 0:
-                print("No tasks to desmark as done")
-            else:
-                task_index = int(input("\nWhich task do you want to desmark as done (1-{})? ".format(len(tasks_done)))) - 1
-                
-                if task_index > len(tasks_done):
-                    print("Error: You don't have that task")
+                if len(tasks_done) == 0:
+                    print("No tasks already done")
                 else:
-                    tasks.append(tasks_done[task_index])
-                    after_task = len(tasks)
-                    if after_task > before_task:
-                        save_value(tasks, tasks_name)
-                        del tasks_done[task_index]
-                        after_done = len(tasks_done)
-                        if after_done < before_done:
-                            save_value(tasks_done, done_name)
-                            print("Task desmarked")
+                    print("\nTasks already done:")
+                    
+                    for i, task in enumerate(tasks_done, start=1):
+                        print("{} - {}".format(i, task))
+        
+            elif choice == 6:
+                
+                before_done = len(tasks_done)
+                before_task = len(tasks)
+                
+                if len(tasks_done) == 0:
+                    print("No tasks to desmark as done")
+                else:
+                    task_index = int(input("\nWhich task do you want to desmark as done (1-{})? ".format(len(tasks_done)))) - 1
+                    
+                    if task_index > len(tasks_done):
+                        print("Error: You don't have that task")
+                    else:
+                        tasks.append(tasks_done[task_index])
+                        after_task = len(tasks)
+                        if after_task > before_task:
+                            save_value(tasks, tasks_name)
+                            del tasks_done[task_index]
+                            after_done = len(tasks_done)
+                            if after_done < before_done:
+                                save_value(tasks_done, done_name)
+                                print("Task desmarked")
+                            else:
+                                print("Failed to desmark task")
                         else:
                             print("Failed to desmark task")
-                    else:
-                        print("Failed to desmark task")
-                           
-        elif choice == 7:
-            print("\nExiting...")
-            break
+                            
+            elif choice == 7:
+                print("\nExiting...")
+                break
+            
+            else:
+                print("Invalid choice. Please try again.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
         
-        else:
-            print("Invalid choice. Please try again.")
-
 if __name__ == "__main__":
     main()
